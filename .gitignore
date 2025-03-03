@@ -1,0 +1,37 @@
+# 1. Virtual Environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 2. Environment Variables
+.env
+*.env
+
+# 3. Alembic Migration Files (Optional)
+*alembic
+alembic.ini
+
+# 4. Logs & Debugging Files
+*.log
+logs/
+
+# 5. Editor & OS-specific Files
+.vscode/
+.idea/
+.DS_Store
+
+# 6. Python Dependencies
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 7. Compiled Python Files
+*.egg-info/
+dist/
+build/
+
+# 8. Temporary Files
+*.swp
+*.swo

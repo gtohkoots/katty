@@ -1,0 +1,13 @@
+alembic
+fastapi
+redis
+types-redis
+uvicorn
+greenlet
+passlib[bcrypt]
+psycopg2
+python-dotenv
+pyjwt
+google-cloud-storage
+sqlalchemy
+asyncpg
