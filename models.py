@@ -8,7 +8,7 @@ class ImageMetadata(Base):
     __tablename__ = "images_metadata"
 
     id = Column(Integer, primary_key=True, index=True)
-    filename = Column(String, unique=True, index=True)
+    file_name = Column(String, unique=True, index=True)
     file_path = Column(String, nullable=True)  # Path inside GCS
     user_id = Column(String, nullable=False)
     uploaded_at = Column(DateTime, default=datetime.now)
