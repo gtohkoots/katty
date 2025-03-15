@@ -3,12 +3,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models import ImageMetadata
 from storage import generate_upload_signed_url
 from database import get_db
+from celery import Celery
 import os
 
 
 router = APIRouter()
 
 GCP_BUCKET_NAME = os.getenv("GCP_BUCKET_NAME")
+
+celery_app = Celery("image upload task", broker="redis://redis-server:6379/0")
 
 @router.get("/generate-upload-url/{filename}")
 async def get_upload_url(filename: str, request: Request):
@@ -31,6 +34,11 @@ async def update_image_metadata(data: dict, request: Request, db: AsyncSession =
     db.add(new_image)
     await db.commit()
     await db.refresh(new_image)
+
+    image_id = new_image.id
+
+    # Step 3: Send task to Celery queue
+    celery_app.send_task("tasks.process_image", args=[image_id, file_url])
 
     return {"message": "Image Added Successfully"}
     

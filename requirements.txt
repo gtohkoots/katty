@@ -11,3 +11,4 @@ pyjwt
 google-cloud-storage
 sqlalchemy
 asyncpg
+celery
