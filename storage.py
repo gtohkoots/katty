@@ -12,9 +12,11 @@ CRED = os.getenv("GCP_CREDENTIALS_JSON")
 storage_client = storage.Client.from_service_account_json(CRED)
 
 
-def generate_upload_signed_url(bucket_name: str, blob_name: str, expiration_minutes: int = 15):
+def generate_upload_signed_url(
+    bucket_name: str, blob_name: str, expiration_minutes: int = 15
+):
     """Generates a pre-signed URL allowing direct client uploads to GCS."""
-    
+
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(blob_name)
 
@@ -29,7 +31,7 @@ def generate_upload_signed_url(bucket_name: str, blob_name: str, expiration_minu
         version="v4",
         expiration=timedelta(minutes=expiration_minutes),
         method="PUT",  # Use PUT for file uploads
-        content_type=content_type  # Ensure correct content type
+        content_type=content_type,  # Ensure correct content type
     )
 
     print("Generated GET signed URL:")

@@ -9,9 +9,11 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+
 class UserCredential(BaseModel):
     email: str
     password: str
+
 
 @router.post("/register")
 async def register(user: UserCredential, db: AsyncSession = Depends(get_db)):
@@ -35,6 +37,7 @@ async def register(user: UserCredential, db: AsyncSession = Depends(get_db)):
     await db.refresh(new_user)
     return {"message": "User registered successfully"}
 
+
 @router.post("/login")
 async def login(user: UserCredential, db: AsyncSession = Depends(get_db)):
     """Logs in a user and returns JWT token."""
@@ -42,8 +45,14 @@ async def login(user: UserCredential, db: AsyncSession = Depends(get_db)):
     result = await db.execute(stmt)
     existing_user = result.scalar_one_or_none()
 
-    if not existing_user or not verify_password(user.password, existing_user.password_hash):
+    if not existing_user or not verify_password(
+        user.password, existing_user.password_hash
+    ):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     jwt_token = create_access_token({"sub": user.email})
-    return {"access_token": jwt_token, "token_type": "bearer", "user_id": existing_user.id}
+    return {
+        "access_token": jwt_token,
+        "token_type": "bearer",
+        "user_id": existing_user.id,
+    }

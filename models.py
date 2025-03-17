@@ -5,15 +5,19 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class ImageMetadata(Base):
     __tablename__ = "images_metadata"
 
     id = Column(Integer, primary_key=True, index=True)
     file_name = Column(String, unique=True, index=True)
     file_path = Column(String, nullable=True)  # Path inside GCS
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
     uploaded_at = Column(DateTime, default=datetime.now)
     status = Column(String, nullable=False)
+
 
 class User(Base):
     __tablename__ = "users"
