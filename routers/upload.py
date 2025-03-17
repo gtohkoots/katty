@@ -11,7 +11,7 @@ router = APIRouter()
 
 GCP_BUCKET_NAME = os.getenv("GCP_BUCKET_NAME")
 
-celery_app = Celery("image upload task", broker="redis://redis-server:6379/0")
+celery_app = Celery("tasks", broker="redis://localhost:6379/0")
 
 @router.get("/generate-upload-url/{filename}")
 async def get_upload_url(filename: str, request: Request):
